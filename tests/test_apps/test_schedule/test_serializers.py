@@ -100,6 +100,16 @@ def test_validation_correct(schedule):
             '{"saturday": ["The schedule is incorrectly ordered by time"]}',
             id='value_increase_error',
         ),
+        pytest.param(
+            {
+                'saturday': [
+                    {'type': 'open', 'value': 0},
+                    {'type': 'close', 'value': 59},
+                ],
+            },
+            '{"saturday": ["The time interval between actions should be at least a minute"]}',
+            id='value_increase_error',
+        ),
     ],
 )
 def test_closed_whole_day_error(schedule, error_message):
@@ -109,7 +119,8 @@ def test_closed_whole_day_error(schedule, error_message):
     Тест 1: было открытие, но не было закрытия
     Тест 2: в один день несколько закртыий и открытий подряд
     Тест 3: закрытие без откртыия
-    Тест 3: наружена логика временных интервалов открытия и закрытия
+    Тест 4: наружена логика временных интервалов открытия и закрытия
+    Тест 5: временной интерпвал между действиями меньше минуты
     """
     serializer = WeekScheduleSerializer(data=schedule)
     with pytest.raises(ValidationError) as exc_info:
