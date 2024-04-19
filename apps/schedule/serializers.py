@@ -19,7 +19,7 @@ class WeekScheduleSerializer(serializers.Serializer):
 
     def validate(self, data):
         """
-        Функция валидации, проверяющая порядок открытий и закрытий заведения между днями недели.
+        Функция валидации, проверяющая порядок открытий и закрытий заведения.
         """
         days = list(data.keys())
         for day_index, current_day in enumerate(days):
